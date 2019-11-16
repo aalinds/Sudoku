@@ -39,7 +39,6 @@ var primaryCellId = "";
 // After clicking primary "cell" divs..
 function primaryCellClick() {
     primaryCellId = parseInt((this.id).split("cell")[1]);
-    console.log("primary Cell: " + this.id);
 }
 
 // After clicking secondary "cell" divs
@@ -51,7 +50,6 @@ function secondaryCellClick() {
         tempCell.textContent = secondaryCellVal;
         primaryCellId = "";
     }
-    console.log("Secondary Cell");
 }
 
 // On double clicking a primary "cell" div reset it's value
@@ -59,7 +57,6 @@ function primaryCellDblClick() {
     if(primaryCellId !== "") {
         document.getElementById("cell" + primaryCellId).textContent = "";
     }
-    console.log("Double Click")
 }
 
 // Adding click listener on each "cell" div
