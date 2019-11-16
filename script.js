@@ -111,7 +111,11 @@ function randomMatrix() {
 }
 
 function newGame() {
-    console.log("game start")
+    var finalAnsDiv = document.getElementById("finalAnsDiv");
+    if(finalAnsDiv !== null) {
+        document.querySelector("body").removeChild(finalAnsDiv);
+    }
+    console.log("game start");
     gameMatrix = [
         ["","","","","","","","",""],
         ["","","","","","","","",""],
@@ -163,12 +167,30 @@ function findDuplicates(arr) {
   return false;
 }
 
+function showFinalSudoku() {
+    var finalAnsDiv = document.createElement("div");
+    finalAnsDiv.setAttribute("id", "finalAnsDiv");
+
+    document.querySelector("body").appendChild(finalAnsDiv);
+    var finalAns = document.getElementById("finalAnsDiv");
+
+    for(var i = 0; i < 9; i++) {
+        for(var j = 0; j < 9; j++) {
+            var cellDiv = document.createElement("div");
+            cellDiv.setAttribute("class", "cell");
+            cellDiv.textContent = sudokuMatrix[i][j];
+            finalAns.appendChild(cellDiv)
+        }
+    }
+}
+
 function submitGame() {
     console.log("Submit");
 
     for(var i = 0; i < 9; i++) {
         if(findDuplicates(gameMatrix[i])) {
             alert("You Lose");
+            showFinalSudoku();
             return;
         }
     }
@@ -181,7 +203,8 @@ function submitGame() {
             //     return;
             // }
             if(arrObj[gameMatrix[i][j]] !== undefined || arrObj[gameMatrix[i][j]] === "") {
-                alert("You Lose!")
+                alert("You Lose!");
+                showFinalSudoku();
                 return
             } else {
                 arrObj[gameMatrix[i][j]] = 1;
@@ -208,7 +231,8 @@ function submitGame() {
       for(i = l; i < l+3; i++) {
         for(j = m; j < m+3; j++) {
             if(checkObj[gameMatrix[i][j]] !== undefined || checkObj[gameMatrix[i][j]] === "") {
-                alert("You Lose!")
+                alert("You Lose!");
+                showFinalSudoku();
                 return;
             } else {
                 checkObj[gameMatrix[i][j]] = 1;
@@ -218,6 +242,7 @@ function submitGame() {
       m = j;
     }
 
-    alert("Hurray! You Win!")
+    alert("Hurray! You Win!");
+    showFinalSudoku();
     return;
 }
