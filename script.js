@@ -1,3 +1,15 @@
+var sudokuMatrix = [
+    [4,3,5,2,6,9,7,8,1],
+    [6,82571493],
+    [197834562],
+    [826195347],
+    [374682915],
+    [951743628],
+    [519326874],
+    [248957136],
+    [763418259]
+]
+
 // Inserting 9 child div with class "miniGrid" into "sudokuGrid" Div
 function appendMiniGridDivs() {
     for(var i = 1; i <= 9; i++) {
@@ -19,13 +31,13 @@ function appendCellDivs() {
         for(var j = 0; j < 9; j++) {
             cellCount++;
             var cell = document.createElement("div");
-            // IF adds numbers inside to cells of last "miniGrid" div..
-            if(i == miniGrid.length-1) {
-                cell.textContent = j;
-            }
 
-            cell.setAttribute("class", "cell");
-            cell.setAttribute("id", "cell" + cellCount)
+            if(j == 3 || j == 4 || j == 5 || i == 3 || i == 4 || i == 5) {
+                cell.setAttribute("class", "cell grey");
+            } else {
+                cell.setAttribute("class", "cell lightGrey");
+            }
+            cell.setAttribute("id", "cell" + i + j);          
 
             miniGrid[i].appendChild(cell);
         }
@@ -39,6 +51,7 @@ var primaryCellId = "";
 // After clicking primary "cell" divs..
 function primaryCellClick() {
     primaryCellId = parseInt((this.id).split("cell")[1]);
+    console.log("primary Cell: " + this.id);
 }
 
 // After clicking secondary "cell" divs
@@ -50,6 +63,7 @@ function secondaryCellClick() {
         tempCell.textContent = secondaryCellVal;
         primaryCellId = "";
     }
+    console.log("Secondary Cell");
 }
 
 // On double clicking a primary "cell" div reset it's value
@@ -57,6 +71,7 @@ function primaryCellDblClick() {
     if(primaryCellId !== "") {
         document.getElementById("cell" + primaryCellId).textContent = "";
     }
+    console.log("Double Click")
 }
 
 // Adding click listener on each "cell" div

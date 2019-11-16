@@ -8,20 +8,19 @@ body {
 #sudokuGrid {
   text-align: center;
   display: grid;
-  grid-template-columns: 120px 120px 120px;
-  grid-template-rows: 120px 120px 120px;
-  justify-content: center;
+  grid-template-columns: 360px;
+  grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 40px 40px;
 }
 .miniGrid {
-  text-align: center;
+  text-align: center; 
   display: grid;
-  grid-template-columns: 40px 40px 40px;
-  grid-template-rows: 40px 40px 40px;
+  grid-template-columns: 40px 40px 40px 40px 40px 40px 40px 40px 40px;
+  grid-template-rows: 40px;
 }
-.miniGrid:nth-of-type(2n + 1) {
+.lightGrey {
   background: lightgrey;
 }
-.miniGrid:nth-of-type(2n) {
+.grey {
   background: grey;
 }
 .cell {
@@ -29,9 +28,19 @@ body {
 }
 
 #rightMenu {
+  /*background: blue;*/
   margin-left: 50px;
   display: flex;
   flex-direction: column;
+}
+#rightGrid {
+  text-align: center;
+  display: grid;
+  grid-template-columns: 40px 40px 40px;
+  grid-template-rows: 40px 40px 40px;
+}
+#rightGrid > .cell {
+  background: red;
 }
 #newGameBtn {
   margin-bottom: 20px;
