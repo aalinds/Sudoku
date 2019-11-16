@@ -1,14 +1,16 @@
+
 var sudokuMatrix = [
     [4,3,5,2,6,9,7,8,1],
-    [6,82571493],
-    [197834562],
-    [826195347],
-    [374682915],
-    [951743628],
-    [519326874],
-    [248957136],
-    [763418259]
-]
+    [6,8,2,5,7,1,4,9,3],
+    [1,9,7,8,3,4,5,6,2],
+    [8,2,6,1,9,5,3,4,7],
+    [3,7,4,6,8,2,9,1,5],
+    [9,5,1,7,4,3,6,2,8],
+    [5,1,9,3,2,6,8,7,4],
+    [2,4,8,9,5,7,1,3,6],
+    [7,6,3,4,1,8,2,5,9]
+];
+var gameMatrix;
 
 // Inserting 9 child div with class "miniGrid" into "sudokuGrid" Div
 function appendMiniGridDivs() {
@@ -50,7 +52,7 @@ var primaryCellId = "";
 
 // After clicking primary "cell" divs..
 function primaryCellClick() {
-    primaryCellId = parseInt((this.id).split("cell")[1]);
+    primaryCellId = (this.id).split("cell")[1];
     console.log("primary Cell: " + this.id);
 }
 
@@ -61,6 +63,8 @@ function secondaryCellClick() {
     if(primaryCellId !== "") {
         var tempCell = document.getElementById("cell" + primaryCellId);
         tempCell.textContent = secondaryCellVal;
+        // console.log(typeof(primaryCellId));
+        gameMatrix[Number(primaryCellId[0])][Number(primaryCellId[1])] = secondaryCellVal;
         primaryCellId = "";
     }
     console.log("Secondary Cell");
@@ -70,6 +74,7 @@ function secondaryCellClick() {
 function primaryCellDblClick() {
     if(primaryCellId !== "") {
         document.getElementById("cell" + primaryCellId).textContent = "";
+        gameMatrix[Number(primaryCellId[0])][Number(primaryCellId[1])] = "";
     }
     console.log("Double Click")
 }
@@ -91,6 +96,128 @@ function addClickToCell() {
 
 addClickToCell();
 
+function random(number){
+  return Math.floor(Math.random() * number);
+}
+
+function randomMatrix() {
+    for(var i = 0; i < 9; i++) {
+        for(var j = 0; j < 9; j++) {
+            var iRand = random(9);
+            var jRand = random(9);
+            gameMatrix[iRand][jRand] = sudokuMatrix[iRand][jRand];
+        }
+    }
+}
+
 function newGame() {
-    alert("new Game")
+    console.log("game start")
+    gameMatrix = [
+        ["","","","","","","","",""],
+        ["","","","","","","","",""],
+        ["","","","","","","","",""],
+        ["","","","","","","","",""],
+        ["","","","","","","","",""],
+        ["","","","","","","","",""],
+        ["","","","","","","","",""],
+        ["","","","","","","","",""],
+        ["","","","","","","","",""],
+    ];
+
+    randomMatrix();
+
+    for(var i = 0; i < 9; i++) {
+        for(var j = 0; j < 9; j++) {
+            var cellDiv = document.getElementById("cell" + i + j);
+            if(gameMatrix[i][j] !== "") {
+                cellDiv.removeEventListener("click", primaryCellClick);
+                cellDiv.removeEventListener("dblclick", primaryCellDblClick);
+
+                cellDiv.style.color = "black";
+                cellDiv.style.fontWeight = "normal";
+                // cellDiv.style.fontSize = "17px";
+            } else {
+                cellDiv.addEventListener("click", primaryCellClick);
+                cellDiv.addEventListener("dblclick", primaryCellDblClick);
+
+                cellDiv.style.color = "blue";
+                cellDiv.style.fontWeight = "bold";
+            }
+            cellDiv.textContent = gameMatrix[i][j];
+        }
+    }
+}
+newGame();
+
+function findDuplicates(arr) {
+  var arrObj = {};
+
+  for(var i = 0; i < arr.length; i++) {
+    if(arrObj[arr[i]] !== undefined || arr[i] === "") {
+      return true
+    } else {
+        arrObj[arr[i]] = 1;
+    }
+  }
+  
+  return false;
+}
+
+function submitGame() {
+    console.log("Submit");
+
+    for(var i = 0; i < 9; i++) {
+        if(findDuplicates(gameMatrix[i])) {
+            alert("You Lose");
+            return;
+        }
+    }
+
+    for(var j = 0; j < 9; j++) {
+        var arrObj = {}
+        for(var i = 0; i < 9; i++) {
+            // if(findDuplicates(gameMatrix[i][j])) {
+            //     alert("You lose");
+            //     return;
+            // }
+            if(arrObj[gameMatrix[i][j]] !== undefined || arrObj[gameMatrix[i][j]] === "") {
+                alert("You Lose!")
+                return
+            } else {
+                arrObj[gameMatrix[i][j]] = 1;
+            }
+        }
+    }
+
+    var j = 0;
+    for(var k = 1; k <= 9; k++) {
+      var l, m;
+      var checkObj = {};
+      
+      if(k < 4) {
+        l = 0;
+      } else if(k < 7) {
+        l = 3
+      } else {
+        l = 6
+      }
+      if(k == 1 || k == 4 || k == 7) {
+        m = 0;
+      }
+      
+      for(i = l; i < l+3; i++) {
+        for(j = m; j < m+3; j++) {
+            if(checkObj[gameMatrix[i][j]] !== undefined || checkObj[gameMatrix[i][j]] === "") {
+                alert("You Lose!")
+                return;
+            } else {
+                checkObj[gameMatrix[i][j]] = 1;
+            }
+        }
+      }
+      m = j;
+    }
+
+    alert("Hurray! You Win!")
+    return;
 }

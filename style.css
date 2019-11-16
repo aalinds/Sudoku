@@ -12,16 +12,19 @@ body {
   grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 40px 40px;
 }
 .miniGrid {
-  text-align: center; 
+  text-align: center;
+  font-weight: bold;
+  font-size: 25px;
   display: grid;
+  color: blue;
   grid-template-columns: 40px 40px 40px 40px 40px 40px 40px 40px 40px;
   grid-template-rows: 40px;
 }
 .lightGrey {
-  background: lightgrey;
+  background: darkgrey;
 }
 .grey {
-  background: grey;
+  background: white;
 }
 .cell {
   border: 1px solid black;
@@ -44,4 +47,7 @@ body {
 }
 #newGameBtn {
   margin-bottom: 20px;
+}
+#submitBtn {
+  margin-top: 20px;
 }
