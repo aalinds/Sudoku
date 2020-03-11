@@ -7,8 +7,8 @@ function randomMatrix(firstMatrix, secondMatrix) {
     for (var j = 0; j < 9; j++) {
       var iRand = Math.floor(Math.random() * 9);
       var jRand = Math.floor(Math.random() * 9);
-      //   firstMatrix[iRand][jRand] = secondMatrix[iRand][jRand];
-      firstMatrix[i][j] = secondMatrix[i][j];
+      firstMatrix[iRand][jRand] = secondMatrix[iRand][jRand];
+      //   firstMatrix[i][j] = secondMatrix[i][j];
     }
   }
   return firstMatrix;
