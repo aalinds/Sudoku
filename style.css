@@ -1,11 +1,5 @@
-body {
-  /*display: flex;*/
-}
-#container {
-  display: flex;
-  justify-content: center;
-}
 #sudokuGrid {
+  /* background-color: red; */
   text-align: center;
   display: grid;
   grid-template-columns: 360px;
@@ -19,12 +13,6 @@ body {
   color: blue;
   grid-template-columns: 40px 40px 40px 40px 40px 40px 40px 40px 40px;
   grid-template-rows: 40px;
-}
-.lightGrey {
-  background: darkgrey;
-}
-.grey {
-  background: white;
 }
 .cell {
   border: 1px solid black;
