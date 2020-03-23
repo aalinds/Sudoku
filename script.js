@@ -1,17 +1,56 @@
-let sudokuMatrix;
-let gameMatrix;
-let compareMatrix;
+let generatedMatrix;
+let userMatrix;
 
-function randomMatrix(firstMatrix, secondMatrix) {
-  for (var i = 0; i < 8; i++) {
+function removeListener() {
+  for (var i = 0; i < 9; i++) {
     for (var j = 0; j < 9; j++) {
-      var iRand = Math.floor(Math.random() * 9);
-      var jRand = Math.floor(Math.random() * 9);
-      firstMatrix[iRand][jRand] = secondMatrix[iRand][jRand];
-      //   firstMatrix[i][j] = secondMatrix[i][j];
+      var cellDiv = document.getElementById('cell' + i + j);
+      if (userMatrix[i][j] !== '') {
+        cellDiv.removeEventListener('click', primaryCellClick);
+        cellDiv.removeEventListener('dblclick', primaryCellDblClick);
+
+        cellDiv.style.color = 'black';
+        cellDiv.style.fontWeight = 'normal';
+      } else {
+        cellDiv.addEventListener('click', primaryCellClick);
+        cellDiv.addEventListener('dblclick', primaryCellDblClick);
+
+        cellDiv.style.color = 'blue';
+        cellDiv.style.fontWeight = 'bold';
+      }
+      cellDiv.textContent = userMatrix[i][j];
     }
   }
-  return firstMatrix;
+}
+
+function showFinalSudoku() {
+  let finalAnsDiv = document.getElementById('finalAnsDiv');
+
+  for (var i = 0; i < 9; i++) {
+    for (var j = 0; j < 9; j++) {
+      var cellDiv = document.createElement('div');
+      cellDiv.setAttribute('class', 'cell');
+      cellDiv.textContent = generatedMatrix[i][j];
+      finalAnsDiv.appendChild(cellDiv);
+    }
+  }
+}
+
+function shuffle(arr) {
+  var currIndex = arr.length,
+    tempVal,
+    randomIndex;
+
+  while (0 !== currIndex) {
+    randomIndex = Math.floor(Math.random() * currIndex);
+    currIndex -= 1;
+
+    tempVal = arr[currIndex];
+    arr[currIndex] = arr[randomIndex];
+    arr[randomIndex] = tempVal;
+  }
+
+  return arr;
 }
 
 function possible(matrix, x, y, n) {
@@ -35,83 +74,27 @@ function possible(matrix, x, y, n) {
   return true;
 }
 
-function solve(matrix) {
-  for (let x = 0; x < 9; x++) {
-    for (let y = 0; y < 9; y++) {
-      if (matrix[x][y] == '') {
-        for (let n = 1; n < 10; n++) {
-          if (possible(matrix, x, y, n)) {
-            matrix[x][y] = n;
-            solve(matrix);
-            matrix[x][y] = '';
-          }
-        }
-        return;
+function fillSudokuDiagonal() {
+  nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  for (let i = 0; i < 9; i += 3) {
+    nums = shuffle(nums);
+    let x0 = Math.floor(i / 3) * 3;
+    let y0 = Math.floor(i / 3) * 3;
+    let count = 0;
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        generatedMatrix[x0 + i][y0 + j] = nums[count];
+        count++;
       }
-    }
-  }
-  //   compareMatrix = matrix.map(res => res.slice());
-}
-
-function sudoku_generator() {
-  sudokuMatrix = [
-    [4, 3, 5, 2, 6, 9, 7, 8, 1],
-    [6, 8, 2, 5, 7, 1, 4, 9, 3],
-    [1, 9, 7, 8, 3, 4, 5, 6, 2],
-    [8, 2, 6, 1, 9, 5, 3, 4, 7],
-    [3, 7, 4, 6, 8, 2, 9, 1, 5],
-    [9, 5, 1, 7, 4, 3, 6, 2, 8],
-    [5, 1, 9, 3, 2, 6, 8, 7, 4],
-    [2, 4, 8, 9, 5, 7, 1, 3, 6],
-    [7, 6, 3, 4, 1, 8, 2, 5, 9]
-  ];
-}
-
-function removeListener() {
-  for (var i = 0; i < 9; i++) {
-    for (var j = 0; j < 9; j++) {
-      var cellDiv = document.getElementById('cell' + i + j);
-      if (gameMatrix[i][j] !== '') {
-        cellDiv.removeEventListener('click', primaryCellClick);
-        cellDiv.removeEventListener('dblclick', primaryCellDblClick);
-
-        cellDiv.style.color = 'black';
-        cellDiv.style.fontWeight = 'normal';
-      } else {
-        cellDiv.addEventListener('click', primaryCellClick);
-        cellDiv.addEventListener('dblclick', primaryCellDblClick);
-
-        cellDiv.style.color = 'blue';
-        cellDiv.style.fontWeight = 'bold';
-      }
-      cellDiv.textContent = gameMatrix[i][j];
-    }
-  }
-}
-
-function showFinalSudoku() {
-  var finalAnsDiv = document.createElement('div');
-  finalAnsDiv.setAttribute('id', 'finalAnsDiv');
-
-  document.querySelector('body').appendChild(finalAnsDiv);
-  var finalAns = document.getElementById('finalAnsDiv');
-
-  for (var i = 0; i < 9; i++) {
-    for (var j = 0; j < 9; j++) {
-      var cellDiv = document.createElement('div');
-      cellDiv.setAttribute('class', 'cell');
-      cellDiv.textContent = sudokuMatrix[i][j];
-      finalAns.appendChild(cellDiv);
     }
   }
 }
 
 function submitGame() {
-  //   solve(gameMatrix);
-
+  event.path[0].disabled = true;
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      if (gameMatrix[i][j] !== sudokuMatrix[i][j]) {
+      if (userMatrix[i][j] !== generatedMatrix[i][j]) {
         alert('You Lose');
         showFinalSudoku();
         return;
@@ -121,17 +104,78 @@ function submitGame() {
 
   alert('Hurray! You Win!');
   showFinalSudoku();
-  console.log('hi');
+}
+
+function solve(matrix, possibilities) {
+  for (let x = 0; x < 9; x++) {
+    for (let y = 0; y < 9; y++) {
+      if (matrix[x][y] == '') {
+        for (let n = 1; n < 10; n++) {
+          if (possible(matrix, x, y, n)) {
+            matrix[x][y] = n;
+            solve(matrix, possibilities);
+            matrix[x][y] = '';
+          }
+        }
+        return;
+      }
+    }
+  }
+  possibilities[0] = possibilities[0] + 1;
+  return;
+}
+
+function generator_solver(matrix) {
+  for (let x = 0; x < 9; x++) {
+    for (let y = 0; y < 9; y++) {
+      if (matrix[x][y] == '') {
+        for (let n = 1; n < 10; n++) {
+          if (possible(matrix, x, y, n)) {
+            matrix[x][y] = n;
+            returned_val = generator_solver(matrix);
+            if (returned_val == 'GENERATED') {
+              return 'GENERATED';
+            }
+            matrix[x][y] = '';
+          }
+        }
+        return;
+      }
+    }
+  }
+  return 'GENERATED';
+}
+
+function removeRandomNums(arr) {
+  let count = 0;
+
+  while (count < 20) {
+    let possibilities = [0];
+    let i = Math.floor(Math.random() * 9);
+    let j = Math.floor(Math.random() * 9);
+
+    if (arr[i][j] !== '') {
+      let tempArr = arr.map(row => [...row]);
+      tempArr[i][j] = '';
+      solve(tempArr, possibilities);
+      if (possibilities[0] === 1) {
+        arr[i][j] = '';
+        count++;
+      }
+    }
+  }
+}
+
+function sudokuGenerator() {
+  fillSudokuDiagonal();
+  generator_solver(generatedMatrix);
+  userMatrix = generatedMatrix.map(row => [...row]);
+  removeRandomNums(userMatrix);
 }
 
 function newGame() {
-  var finalAnsDiv = document.getElementById('finalAnsDiv');
-  if (finalAnsDiv !== null) {
-    document.querySelector('body').removeChild(finalAnsDiv);
-  }
-  console.log('game start');
-  sudoku_generator();
-  gameMatrix = [
+  document.getElementById('finalAnsDiv').innerHTML = '';
+  generatedMatrix = [
     ['', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', ''],
@@ -142,9 +186,8 @@ function newGame() {
     ['', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', '']
   ];
-  gameMatrix = randomMatrix(gameMatrix, sudokuMatrix);
+  sudokuGenerator();
   removeListener();
-  //   compareMatrix = gameMatrix.map(res => res.slice());
 }
 
 appendMiniGridDivs();

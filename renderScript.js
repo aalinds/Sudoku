@@ -47,7 +47,7 @@ function secondaryCellClick() {
     let tempCell = document.getElementById('cell' + primaryCellId);
     tempCell.textContent = secondaryCellVal;
     // console.log(typeof(primaryCellId));
-    gameMatrix[Number(primaryCellId[0])][
+    userMatrix[Number(primaryCellId[0])][
       Number(primaryCellId[1])
     ] = secondaryCellVal;
     primaryCellId = '';
@@ -59,7 +59,7 @@ function secondaryCellClick() {
 function primaryCellDblClick() {
   if (primaryCellId !== '') {
     document.getElementById('cell' + primaryCellId).textContent = '';
-    gameMatrix[Number(primaryCellId[0])][Number(primaryCellId[1])] = '';
+    userMatrix[Number(primaryCellId[0])][Number(primaryCellId[1])] = '';
   }
   console.log('Double Click');
 }
