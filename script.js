@@ -175,6 +175,7 @@ function sudokuGenerator() {
 
 function newGame() {
   document.getElementById('finalAnsDiv').innerHTML = '';
+  document.getElementById('submitBtn').disabled = false;
   generatedMatrix = [
     ['', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', ''],
