@@ -17,6 +17,17 @@
     </div>
 
     <div class="container">
+      <div class="row justify-content-center m-3">
+        <select
+          name="difficulty"
+          id="difficulty"
+          onchange="changeDifficultyHandler()"
+        >
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
       <div class="row">
         <div id="sudokuGrid"></div>
 

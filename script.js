@@ -1,6 +1,10 @@
 let generatedMatrix;
 let userMatrix;
 
+const changeDifficultyHandler = event => {
+  newGame();
+};
+
 function removeListener() {
   for (var i = 0; i < 9; i++) {
     for (var j = 0; j < 9; j++) {
@@ -147,9 +151,16 @@ function generator_solver(matrix) {
 }
 
 function removeRandomNums(arr) {
-  let count = 0;
-
-  while (count < 20) {
+  let difficulty = document.getElementById('difficulty').value;
+  let count;
+  if (difficulty === 'easy') {
+    count = 20;
+  } else if (difficulty === 'medium') {
+    count = 30;
+  } else if (difficulty === 'hard') {
+    count = 40;
+  }
+  while (count >= 0) {
     let possibilities = [0];
     let i = Math.floor(Math.random() * 9);
     let j = Math.floor(Math.random() * 9);
@@ -160,7 +171,7 @@ function removeRandomNums(arr) {
       solve(tempArr, possibilities);
       if (possibilities[0] === 1) {
         arr[i][j] = '';
-        count++;
+        count--;
       }
     }
   }
@@ -176,6 +187,7 @@ function sudokuGenerator() {
 function newGame() {
   document.getElementById('finalAnsDiv').innerHTML = '';
   document.getElementById('submitBtn').disabled = false;
+
   generatedMatrix = [
     ['', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', ''],
