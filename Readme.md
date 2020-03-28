@@ -24,7 +24,7 @@ https://aalinds.github.io/Sudoku/
 
 ## Game images
 
-![launch image](./assets/images/app-launch.png =250x250)
+<img src="./assets/images/app-launch.png" />
 
 ![game submit](./assets/images/game-submit.png)
 
