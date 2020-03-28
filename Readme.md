@@ -4,7 +4,7 @@ Sudoku is built with HTML, CSS & JavaScript
 
 ## Play online
 
-```
+```link
 https://aalinds.github.io/Sudoku/
 ```
 
