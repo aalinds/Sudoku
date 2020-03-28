@@ -24,8 +24,8 @@ https://aalinds.github.io/Sudoku/
 
 ## Game images
 
-<img src="./assets/images/app-launch.png" />
+<img src="./assets/images/app-launch.png" width="250" height="250" />
 
-![game submit](./assets/images/game-submit.png)
+<img src="./assets/images/game-submit.png" width="250" height="250" />
 
-![final solution](./assets/images/final-solution.png)
+<img src="./assets/images/final-solution.png" width="250" height="250" />
