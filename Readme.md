@@ -16,7 +16,7 @@ https://aalinds.github.io/Sudoku/
 
 ## Installation
 
-1. Clone this repo on your local system
+1. Clone/Download this repo on your local system
 2. Open `index.html` file in the repo
 3. Start playing
 
