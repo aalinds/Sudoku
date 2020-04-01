@@ -2,6 +2,14 @@
 
 Sudoku is built with HTML, CSS & JavaScript
 
+## About
+
+- This game has been built using HTML5, CSS3 & JavaScript.
+- A new Sudoku grid is generated every time a new game is started.
+- Sudoku Solver and Sudoku Generator algorithms are used to generate new grids.
+- Sudoku Solver algorithm uses Backtracking technique to solve the puzzle. Algorithm gives all possible grids for a given puzzle.
+- Sudoku Generator algorithm uses above mentioned Sudoku Solver algorithm to make sure that the generated Sudoku grid is valid (i.e. it has only one possible solution).
+
 ## Play online
 
 https://aalinds.github.io/Sudoku/
