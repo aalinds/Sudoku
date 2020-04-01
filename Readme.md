@@ -1,6 +1,6 @@
 # Sudoku
 
-Sudoku is built with HTML, CSS & JavaScript
+Sudoku game is built using HTML, CSS & JavaScript
 
 ## About
 
